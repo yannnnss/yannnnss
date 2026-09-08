@@ -1,83 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Craft-Man Simpel</title>
-  <style>
-    body { background: #111; color: #fff; font-family: sans-serif; text-align: center; }
-    canvas { background: #000; border: 2px solid #555; margin-top: 10px; }
-  </style>
-</head>
-<body>
+<!-- Banner Animasi Header -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=250&section=header&text=Hi%20👋,%20I'm%20Janz&fontSize=60&animation=fadeIn&fontAlignY=38&desc=A%20passionate%20Informatics%20Student&descAlignY=60&descAlign=50" width="100%"/>
 
-  <h2>CRAFT-MAN</h2>
-  <p>Skor: <span id="score">0</span></p>
-  <canvas id="game" width="300" height="300"></canvas>
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=00FF99&center=true&vcenter=true&width=435&lines=Informatics+Engineering+Student;Web+%26+Software+Developer;Building+AI+%26+Data+Projects" alt="Typing SVG" />
+</p>
 
-  <script>
-    const canvas = document.getElementById('game');
-    const ctx = canvas.getContext('2d');
-    const size = 30;
-    let score = 0;
+<!-- Garis Pemisah Pelangi -->
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" />
+</p>
 
-    // Posisi Awal Player (Steve) & Musuh (Creeper)
-    let player = { x: 1, y: 1 };
-    let creeper = { x: 8, y: 8 };
+<!-- Animasi GIF Developer di sebelah kanan -->
+<img align="right" width="200" src="https://raw.githubusercontent.com/ABSphreak/ABSphreak/master/gifs/macbook.gif" alt="Coding GIF">
 
-    // Peta: 1 = Dinding Batu, 0 = XP Orb, 2 = Jalan Kosong
-    const map = [
-      [1,1,1,1,1,1,1,1,1,1],
-      [1,2,0,0,1,0,0,0,0,1],
-      [1,0,1,0,1,0,1,1,0,1],
-      [1,0,1,0,0,0,0,1,0,1],
-      [1,0,1,1,1,1,0,1,0,1],
-      [1,0,0,0,0,0,0,0,0,1],
-      [1,0,1,1,0,1,1,1,0,1],
-      [1,0,0,1,0,0,0,1,0,1],
-      [1,0,0,0,0,1,0,0,2,1],
-      [1,1,1,1,1,1,1,1,1,1]
-    ];
+### 💫 About Me
+- 🔭 Currently working on **ai-assistant project**
+- 🌱 Learning **Google Cloud, Machine Learning, & Fullstack Web**
+- 💬 Ask me about **PHP, C++, Python, and Database Design**
+- 📫 How to reach me: <a href="mailto:dhiaroyan@gmail.com"><img src="https://img.shields.io/badge/Gmail-D14836?style=flat&logo=gmail&logoColor=white" alt="Gmail"/></a>
 
-    // Kontrol Pergerakan
-    document.addEventListener('keydown', (e) => {
-      let nextX = player.x, nextY = player.y;
-      if (e.key === 'ArrowUp' || e.key === 'w') nextY--;
-      if (e.key === 'ArrowDown' || e.key === 's') nextY++;
-      if (e.key === 'ArrowLeft' || e.key === 'a') nextX--;
-      if (e.key === 'ArrowRight' || e.key === 'd') nextX++;
+<br>
+<br>
 
-      // Cek Tabrakan Dinding
-      if (map[nextY][nextX] !== 1) {
-        player.x = nextX;
-        player.y = nextY;
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" />
+</p>
 
-        // Makan XP Orb
-        if (map[player.y][player.x] === 0) {
-          map[player.y][player.x] = 2;
-          score += 10;
-          document.getElementById('score').innerText = score;
-        }
-      }
-      draw();
-    });
+### 🛠️ Tech Stack & Tools
 
-    // Menggambar Game ke Layar
-    function draw() {
-      ctx.clearRect(0, 0, 300, 300);
+**Languages:**  
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)
+![Python](https://img.shields.io/badge/python-%233776AB.svg?style=for-the-badge&logo=python&logoColor=white)
 
-      // Gambar Peta
-      for (let r = 0; r < 10; r++) {
-        for (let c = 0; c < 10; c++) {
-          if (map[r][c] === 1) { ctx.fillStyle = '#555'; ctx.fillRect(c*size, r*size, size, size); } // Dinding Abu-abu
-          if (map[r][c] === 0) { ctx.fillStyle = '#5f5'; ctx.fillRect(c*size+12, r*size+12, 6, 6); } // XP Hijau
-        }
-      }
+**Frameworks & Libraries:**  
+![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-      // Gambar Player (Biru) & Creeper (Hijau)
-      ctx.fillStyle = '#00a'; ctx.fillRect(player.x*size+4, player.y*size+4, 22, 22);
-      ctx.fillStyle = '#0f0'; ctx.fillRect(creeper.x*size+4, creeper.y*size+4, 22, 22);
-    }
+**Tools & Databases:**  
+![Git](https://img.shields.io/badge/git-%23F05032.svg?style=for-the-badge&logo=git&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
-    draw();
-  </script>
-</body>
-</html>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" />
+</p>
+
+### 📊 GitHub Stats
+
+<p align="center">
+  <img height="160" src="https://github-readme-stats.vercel.app/api?username=yannnnss&show_icons=true&theme=tokyonight&hide_border=true" />
+  <img height="160" src="https://github-readme-stats.vercel.app/api/top-langs/?username=yannnnss&layout=compact&theme=tokyonight&hide_border=true" />
+</p>
+
+<p align="center">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=yannnnss&theme=tokyonight&hide_border=true" />
+</p>
