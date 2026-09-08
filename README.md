@@ -1,59 +1,322 @@
-<!-- Banner Animasi Header -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=250&section=header&text=Hi%20👋,%20I'm%20Janz&fontSize=60&animation=fadeIn&fontAlignY=38&desc=A%20passionate%20Informatics%20Student&descAlignY=60&descAlign=50" width="100%"/>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft Pac-Man (Craft-Man)</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
 
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=00FF99&center=true&vcenter=true&width=435&lines=Informatics+Engineering+Student;Web+%26+Software+Developer;Building+AI+%26+Data+Projects" alt="Typing SVG" />
-</p>
+    h1 {
+      margin: 5px;
+      color: #55ff55;
+      text-shadow: 2px 2px #00aa00;
+    }
 
-<!-- Garis Pemisah Pelangi -->
-<p align="center">
-  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" />
-</p>
+    .hud {
+      display: flex;
+      gap: 30px;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      background: #222;
+      padding: 10px 20px;
+      border: 2px solid #555;
+    }
 
-<!-- Animasi GIF Developer di sebelah kanan -->
-<img align="right" width="200" src="https://raw.githubusercontent.com/ABSphreak/ABSphreak/master/gifs/macbook.gif" alt="Coding GIF">
+    canvas {
+      border: 4px solid #555;
+      background-color: #000;
+      box-shadow: 0 0 20px rgba(85, 255, 85, 0.2);
+    }
 
-### 💫 About Me
-- 🔭 Currently working on **ai-assistant project**
-- 🌱 Learning **Google Cloud, Machine Learning, & Fullstack Web**
-- 💬 Ask me about **PHP, C++, Python, and Database Design**
-- 📫 How to reach me: <a href="mailto:dhiaroyan@gmail.com"><img src="https://img.shields.io/badge/Gmail-D14836?style=flat&logo=gmail&logoColor=white" alt="Gmail"/></a>
+    .controls-info {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
 
-<br>
-<br>
+  <h1>CRAFT-MAN</h1>
+  <div class="hud">
+    <div>SCORE: <span id="score" style="color: #ffff55;">0</span></div>
+    <div>LIVES: <span id="lives" style="color: #ff5555;">3</span></div>
+  </div>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" />
-</p>
+  <canvas id="gameCanvas" width="570" height="570"></canvas>
 
-### 🛠️ Tech Stack & Tools
+  <div class="controls-info">
+    Gunakan tombol <b>Panah (Arrow Keys)</b> atau <b>WASD</b> untuk bergerak.
+  </div>
 
-**Languages:**  
-![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
-![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
-![JavaScript](https://img.shields.io/badge/javascript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)
-![Python](https://img.shields.io/badge/python-%233776AB.svg?style=for-the-badge&logo=python&logoColor=white)
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const scoreEl = document.getElementById("score");
+    const livesEl = document.getElementById("lives");
 
-**Frameworks & Libraries:**  
-![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+    const tileSize = 30;
+    const gridCount = 19;
 
-**Tools & Databases:**  
-![Git](https://img.shields.io/badge/git-%23F05032.svg?style=for-the-badge&logo=git&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+    let score = 0;
+    let lives = 3;
+    let gameOver = false;
+    let powerModeTimer = 0;
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" />
-</p>
+    // Map: 1 = Wall (Stone), 0 = XP Orb, 2 = Golden Apple, 3 = Empty
+    const map = [
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,2,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,2,1],
+      [1,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,0,1],
+      [1,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,0,1],
+      [1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1],
+      [1,1,1,1,0,1,1,1,3,1,3,1,1,1,0,1,1,1,1],
+      [3,3,3,1,0,1,3,3,3,3,3,3,3,1,0,1,3,3,3],
+      [1,1,1,1,0,1,3,1,1,3,1,1,3,1,0,1,1,1,1],
+      [3,3,3,3,0,3,3,1,3,3,3,1,3,3,0,3,3,3,3],
+      [1,1,1,1,0,1,3,1,1,1,1,1,3,1,0,1,1,1,1],
+      [3,3,3,1,0,1,3,3,3,3,3,3,3,1,0,1,3,3,3],
+      [1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1],
+      [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1],
+      [1,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,0,1],
+      [1,2,0,1,0,0,0,0,0,3,0,0,0,0,0,1,0,2,1],
+      [1,1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,1],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ];
 
-### 📊 GitHub Stats
+    // Player (Steve)
+    const player = {
+      x: 9,
+      y: 16,
+      dirX: 0,
+      dirY: 0,
+      nextDirX: 0,
+      nextDirY: 0
+    };
 
-<p align="center">
-  <img height="160" src="https://github-readme-stats.vercel.app/api?username=yannnnss&show_icons=true&theme=tokyonight&hide_border=true" />
-  <img height="160" src="https://github-readme-stats.vercel.app/api/top-langs/?username=yannnnss&layout=compact&theme=tokyonight&hide_border=true" />
-</p>
+    // Mobs (Ghosts)
+    const mobs = [
+      { x: 8, y: 9, color: "creeper", dirX: 1, dirY: 0 },
+      { x: 9, y: 9, color: "zombie", dirX: -1, dirY: 0 },
+      { x: 10, y: 9, color: "skeleton", dirX: 0, dirY: -1 },
+      { x: 9, y: 8, color: "enderman", dirX: 0, dirY: 1 }
+    ];
 
-<p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=yannnnss&theme=tokyonight&hide_border=true" />
-</p>
+    // Event Listener Keyboard
+    window.addEventListener("keydown", (e) => {
+      switch (e.key) {
+        case "ArrowUp": case "w": case "W":
+          player.nextDirX = 0; player.nextDirY = -1; break;
+        case "ArrowDown": case "s": case "S":
+          player.nextDirX = 0; player.nextDirY = 1; break;
+        case "ArrowLeft": case "a": case "A":
+          player.nextDirX = -1; player.nextDirY = 0; break;
+        case "ArrowRight": case "d": case "D":
+          player.nextDirX = 1; player.nextDirY = 0; break;
+      }
+    });
+
+    function update() {
+      if (gameOver) return;
+
+      // Cek apakah pemain bisa berbelok ke arah yang dipencet
+      if (canMove(player.x + player.nextDirX, player.y + player.nextDirY)) {
+        player.dirX = player.nextDirX;
+        player.dirY = player.nextDirY;
+      }
+
+      // Gerakkan Steve
+      if (canMove(player.x + player.dirX, player.y + player.dirY)) {
+        player.x += player.dirX;
+        player.y += player.dirY;
+
+        // Tembus batas terowongan (Kiri-Kanan)
+        if (player.x < 0) player.x = gridCount - 1;
+        if (player.x >= gridCount) player.x = 0;
+      }
+
+      // Makan Item
+      const currentTile = map[player.y][player.x];
+      if (currentTile === 0) { // XP Orb
+        map[player.y][player.x] = 3;
+        score += 10;
+      } else if (currentTile === 2) { // Golden Apple
+        map[player.y][player.x] = 3;
+        score += 50;
+        powerModeTimer = 30; // 30 tick power mode
+      }
+      scoreEl.innerText = score;
+
+      if (powerModeTimer > 0) powerModeTimer--;
+
+      // Update Mobs
+      mobs.forEach(mob => {
+        // Gerakan AI Acak Sederhana
+        const possibleMoves = [
+          { x: 0, y: -1 }, { x: 0, y: 1 },
+          { x: -1, y: 0 }, { x: 1, y: 0 }
+        ].filter(m => canMove(mob.x + m.x, mob.y + m.y));
+
+        if (possibleMoves.length > 0) {
+          const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+          mob.x += move.x;
+          mob.y += move.y;
+        }
+
+        // Cek Tabrakan Steve & Mob
+        if (mob.x === player.x && mob.y === player.y) {
+          if (powerModeTimer > 0) {
+            // Respawn Mob ke tengah
+            mob.x = 9;
+            mob.y = 9;
+            score += 200;
+          } else {
+            // Steve Kena
+            lives--;
+            livesEl.innerText = lives;
+            resetPositions();
+            if (lives <= 0) {
+              gameOver = true;
+              alert("Game Over! Total Skor Anda: " + score);
+            }
+          }
+        }
+      });
+    }
+
+    function canMove(x, y) {
+      if (x < 0 || x >= gridCount || y < 0 || y >= gridCount) return true; // Untuk portal
+      return map[y][x] !== 1;
+    }
+
+    function resetPositions() {
+      player.x = 9; player.y = 16;
+      player.dirX = 0; player.dirY = 0;
+      player.nextDirX = 0; player.nextDirY = 0;
+      mobs[0].x = 8; mobs[0].y = 9;
+      mobs[1].x = 9; mobs[1].y = 9;
+      mobs[2].x = 10; mobs[2].y = 9;
+      mobs[3].x = 9; mobs[3].y = 8;
+    }
+
+    // DRAW FUNCTIONS
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw Map
+      for (let r = 0; r < gridCount; r++) {
+        for (let c = 0; c < gridCount; c++) {
+          const x = c * tileSize;
+          const y = r * tileSize;
+
+          if (map[r][c] === 1) { // Wall Stone
+            ctx.fillStyle = "#555555";
+            ctx.fillRect(x, y, tileSize, tileSize);
+            ctx.strokeStyle = "#333333";
+            ctx.strokeRect(x, y, tileSize, tileSize);
+          } else if (map[r][c] === 0) { // XP Orb
+            ctx.fillStyle = "#55ff55";
+            ctx.fillRect(x + 12, y + 12, 6, 6);
+          } else if (map[r][c] === 2) { // Golden Apple
+            ctx.fillStyle = "#ffaa00";
+            ctx.fillRect(x + 8, y + 8, 14, 14);
+            ctx.fillStyle = "#55ff55"; // Daun
+            ctx.fillRect(x + 12, y + 4, 4, 4);
+          }
+        }
+      }
+
+      // Draw Steve (Player)
+      drawSteve(player.x * tileSize, player.y * tileSize);
+
+      // Draw Mobs
+      mobs.forEach(mob => {
+        if (powerModeTimer > 0) {
+          drawMobHead(mob.x * tileSize, mob.y * tileSize, "#0000aa", "scared");
+        } else {
+          drawMob(mob);
+        }
+      });
+    }
+
+    function drawSteve(x, y) {
+      // Kepala Steve
+      ctx.fillStyle = "#db8254"; // Kulit
+      ctx.fillRect(x + 3, y + 3, 24, 24);
+      ctx.fillStyle = "#4a270f"; // Rambut
+      ctx.fillRect(x + 3, y + 3, 24, 6);
+      ctx.fillStyle = "#ffffff"; // Mata
+      ctx.fillRect(x + 5, y + 12, 6, 4);
+      ctx.fillRect(x + 19, y + 12, 6, 4);
+      ctx.fillStyle = "#0000aa"; // Pupil
+      ctx.fillRect(x + 8, y + 12, 3, 4);
+      ctx.fillRect(x + 19, y + 12, 3, 4);
+    }
+
+    function drawMob(mob) {
+      const x = mob.x * tileSize;
+      const y = mob.y * tileSize;
+
+      if (mob.color === "creeper") {
+        drawMobHead(x, y, "#55ff55", "creeper");
+      } else if (mob.color === "zombie") {
+        drawMobHead(x, y, "#00aaaa", "zombie");
+      } else if (mob.color === "skeleton") {
+        drawMobHead(x, y, "#aaaaaa", "skeleton");
+      } else if (mob.color === "enderman") {
+        drawMobHead(x, y, "#220022", "enderman");
+      }
+    }
+
+    function drawMobHead(x, y, bgColor, type) {
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(x + 3, y + 3, 24, 24);
+
+      if (type === "creeper") {
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(x + 7, y + 8, 5, 5); // Mata Kiri
+        ctx.fillRect(x + 18, y + 8, 5, 5); // Mata Kanan
+        ctx.fillRect(x + 11, y + 13, 8, 9); // Mulut
+      } else if (type === "enderman") {
+        ctx.fillStyle = "#ff00ff"; // Mata ungu menyala
+        ctx.fillRect(x + 5, y + 13, 6, 3);
+        ctx.fillRect(x + 19, y + 13, 6, 3);
+      } else if (type === "scared") {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(x + 7, y + 10, 4, 4);
+        ctx.fillRect(x + 19, y + 10, 4, 4);
+      } else {
+        // Zombie & Skeleton
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(x + 6, y + 10, 5, 5);
+        ctx.fillRect(x + 19, y + 10, 5, 5);
+      }
+    }
+
+    // Game Loop
+    function gameLoop() {
+      update();
+      draw();
+      setTimeout(() => {
+        requestAnimationFrame(gameLoop);
+      }, 200); // Speed control
+    }
+
+    gameLoop();
+  </script>
+</body>
+</html>
