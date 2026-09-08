@@ -1,19 +1,30 @@
-<h1 align="center">Hi 👋, I'm Janz</h1>
-<h3 align="center">A passionate Informatics Student</h3>
+<!-- Banner Animasi Header -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=250&section=header&text=Hi%20👋,%20I'm%20Janz&fontSize=60&animation=fadeIn&fontAlignY=38&desc=A%20passionate%20Informatics%20Student&descAlignY=60&descAlign=50" width="100%"/>
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=2196F3&center=true&vcenter=true&width=435&lines=Informatics+Engineering+Student;Web+%26+Software+Developer;Building+AI+%26+Data+Projects" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=00FF99&center=true&vcenter=true&width=435&lines=Informatics+Engineering+Student;Web+%26+Software+Developer;Building+AI+%26+Data+Projects" alt="Typing SVG" />
 </p>
 
----
+<!-- Garis Pemisah Pelangi -->
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" />
+</p>
+
+<!-- Animasi GIF Developer di sebelah kanan -->
+<img align="right" width="200" src="https://raw.githubusercontent.com/ABSphreak/ABSphreak/master/gifs/macbook.gif" alt="Coding GIF">
 
 ### 💫 About Me
 - 🔭 Currently working on **ai-assistant project**
 - 🌱 Learning **Google Cloud, Machine Learning, & Fullstack Web**
 - 💬 Ask me about **PHP, C++, Python, and Database Design**
-- 📫 How to reach me: **[dhiaroyan@gmail.com]**
+- 📫 How to reach me: <a href="mailto:dhiaroyan@gmail.com"><img src="https://img.shields.io/badge/Gmail-D14836?style=flat&logo=gmail&logoColor=white" alt="Gmail"/></a>
 
----
+<br>
+<br>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" />
+</p>
 
 ### 🛠️ Tech Stack & Tools
 
@@ -32,15 +43,17 @@
 ![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
----
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%" />
+</p>
 
 ### 📊 GitHub Stats
 
 <p align="center">
-  <img height="160" src="https://github-readme-stats.vercel.app/api?username=[USERNAME-ANDA]&show_icons=true&theme=tokyonight&hide_border=true" />
-  <img height="160" src="https://github-readme-stats.vercel.app/api/top-langs/?username=[USERNAME-ANDA]&layout=compact&theme=tokyonight&hide_border=true" />
+  <img height="160" src="https://github-readme-stats.vercel.app/api?username=yannnnss&show_icons=true&theme=tokyonight&hide_border=true" />
+  <img height="160" src="https://github-readme-stats.vercel.app/api/top-langs/?username=yannnnss&layout=compact&theme=tokyonight&hide_border=true" />
 </p>
 
 <p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=[USERNAME-ANDA]&theme=tokyonight&hide_border=true" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=yannnnss&theme=tokyonight&hide_border=true" />
 </p>
